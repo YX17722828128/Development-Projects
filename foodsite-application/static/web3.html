@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>web3</title> 
+<style type="text/css">
+	body{
+		text-align: center;
+		font-family: Georgia, "Times New Roman", Times, serif;
+		font-weight: bold;
+	}
+	form{
+		margin-top: 15%;
+	}
+	font{
+		font-size: 8px;
+		line-height: 270%;
+	}
+	input{
+		border-top-style: none;
+		border-left-style: none;
+		border-right-style: none;
+		border-bottom-style:solid;
+		outline: none;
+	}
+	div{
+		border:solid;
+		width: 650px;
+		height: 500px;
+		margin: auto;
+	}
+	.btn{
+		border: solid;
+		border-radius: 6px;
+		background-color: transparent;
+	}
+	.btn:hover{
+		cursor: pointer;
+		background-color: #FF3;
+	}
+</style>
+<script src="jquery-3.2.1.js">
+</script>
+<script>
+$(document).ready(function(){
+	var ok1 = false;
+	var ok2 = false;
+	var ok3 = false;
+	var ok4 = false;
+	var ok5 = false;
+	var ok6 = false;
+	$("input[name='firstname']").focus();
+  	$("#mySubmit").click(function(){
+		$("input[name='firstname']").focus();
+   		if(ok1 && ok2 && ok3 && ok4 && ok5 && ok6){
+   			$(location).attr('href', 'http://www1.szu.edu.cn');
+   		}
+   		else{
+   			alert("input error");
+   		}
+   		
+  	});
+  	$("#reset").click(function(){
+  		$("font").remove();
+  	});
+  	$("#firstname").blur(function(){
+		var name = $("#firstname").val();
+		var pat = /[a-zA-Z]/;
+		if(pat.test(name)){
+			if($($( this ).next())[0].tagName == "FONT")
+				$(this).next().remove();
+			ok1 = true;
+		}
+		else{
+			$(this).after("<font style=\"color: red; position: fixed;\">*No numbers or special characters</font>");
+		}
+  	});
+  	$("#lastname").blur(function(){
+		var name = $("#lastname").val();
+		var pat = /[a-zA-Z]/;
+		if(name != ""){
+			if(pat.test(name)){
+				if($($( this ).next())[0].tagName == "FONT")
+					$(this).next().remove();
+			}
+			else{
+				$(this).after("<font style=\"color: red; position: fixed;\">*No numbers or special characters</font>");
+			}
+		}
+  	});
+  	$("#addr").blur(function(){
+		var name = $("#addr").val();
+			if(name != ""){
+				if($($( this ).next())[0].tagName == "FONT")
+					$(this).next().remove();
+				ok2 = true;
+			}
+			else{
+				$(this).after("<font style=\"color: red; position: fixed;\">*Can't be empty</font>");
+			}
+  	});
+  	$("#email").blur(function(){
+		 var name = $("#email").val();
+		 var pat = /^[A-Za-z0-9]+\@+[A-Za-z0-9]+\.+(com|net|cn)$/;
+		 if(pat.test(name)){
+			if($($( this ).next())[0].tagName == "FONT")
+				$(this).next().remove();
+			ok3 = true;
+		 }
+		 else{
+			$(this).after("<font style=\"color: red; position: fixed;\">*invalid email form</font>");
+		 }
+  	});
+  	$("#psd").blur(function(){
+		var name = $("#psd").val();
+		var regUpper = /[A-Z]/;
+		var regDigital = /[0-9]/;
+		var regStr = /[^A-Za-z0-9]/;
+		var count = 0;
+            if (regUpper.test(name)) {
+                ++count;
+            }
+            if (regDigital.test(name)) {
+                ++count;
+            }
+            if (regStr.test(name)) {
+                ++count;
+            }
+			if(count < 3 || name.length < 8){
+				$(this).after("<font style=\"color: red; position: fixed;\">* must be > 8, having at least one uppercase<br/> letter, one digit and one special character</font>");
+			}
+			else{
+				if($($( this ).next())[0].tagName == "FONT")
+					$(this).next().remove();
+				ok4 = true;
+			}
+  	});
+  	$("#rpsd").blur(function(){
+		var name = $("#rpsd").val();
+			if(name == $("#psd").val()){
+				if($($( this ).next())[0].tagName == "FONT")
+					$(this).next().remove();
+				ok5 = true;
+			}
+			else{
+				$(this).after("<font style=\"color: red; position: fixed;\">*Input inconsistent</font>");
+			}
+  	});
+  	$("#phone").blur(function(){
+		var name = $("#phone").val();
+		var pat = /\d/;
+			if(pat.test(name) && name.length == 11){
+				if($($( this ).next())[0].tagName == "FONT")
+					$(this).next().remove();
+				ok6 = true;
+			}
+			else{
+				$(this).after("<font style=\"color: red; position: fixed;\">*should be digitals/length should be 11</font>");
+			}
+  	});
+});
+</script>
+</head>
+<body>
+    <div>
+        <form action="" method="post">
+            <label>First-Name:&nbsp;&nbsp; </label><input type="text" placeholder="input first-name here" name="firstname" id="firstname"/><br/><br/>
+            <label>Last-Name:&nbsp;&nbsp;&nbsp; </label><input type="text" placeholder="input last-name(optional)" id="lastname" /><br/><br/>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label><input type="text" 
+            placeholder="input address here" id="addr" /><br/><br/>
+            <label>&emsp;&emsp;Email:&nbsp;&nbsp;&emsp;</label><input type="email" placeholder="input email here" id="email" /><br/><br/>
+            <label>&nbsp;&nbsp;Password:&nbsp;&nbsp;&nbsp; </label><input type="password" placeholder="input password here" id="psd" /><br/><br/>
+            <label>Retype psd:&nbsp;&nbsp; </label><input type="password" placeholder="confirm password here" id="rpsd" /><br/><br/>
+            <label>&nbsp;Phone No :&nbsp;&nbsp;&nbsp;</label><input type="text" placeholder="input phone number here" id="phone" /><br/><br/>
+            <input id="mySubmit" type="button" name="提交" value="提交" class="btn"/>&nbsp;&nbsp;&nbsp;<input type="reset" name="重置" class="btn" id="reset"/>
+        </form>
+    </div>
+</body>
+</html>

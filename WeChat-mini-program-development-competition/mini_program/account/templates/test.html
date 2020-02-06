@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>testing</title>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/establish_form/',
+	            type: 'POST', 
+	            data: {display_requirement:$('#display_requirement').val(),csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	            	if(data == "success"){
+	            		$('body').append("<a href=\"download_form\" id=\"download_form\">下载链接</a>");     
+	            		$('#download_form')[0].click();   	
+	            		$('#download_form').remove();	
+	            	}
+	            }
+        	})  	
+		})
+	})
+</script> -->
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/recommend_news/',
+	            type: 'POST', 
+	            data: {csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	              for (var i = 0; i < data.length; i++) {
+	              	$("body").append(data[i]["recommend_id"]+" "+data[i]["news_title"]+" "+data[i]["news_url"]+"<br>");
+	              }
+	            }
+        	})
+		})
+	})
+</script> -->
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/login/',
+	            type: 'POST', 
+	            data: {id:"kjudmo8hssl7xxx",name:"testname",sex:"unknown",headimgurl:"http://xxx.jpeg",csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	            	alert(data);
+	            }
+        	})
+		})
+	})
+</script> -->
+<script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/exchange_rate/',
+	            type: 'POST', 
+	            // dataType:'jsonp', 
+	            // jsonp:'jsonpCallback',
+	            /*data:{record_id:"kjudmo8hssl7aaa_record_1527954459",value:200,date:"2018-6-21",description:"描述暂无(　o=^•ェ•)o　┏━┓",csrfmiddlewaretoken:'{{ csrf_token }}'},*/
+	            data: {currency1:$('#account_book_id_1').val(),currency2:$('#account_book_id_2').val(),csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	            	alert(data);
+	            }
+        	})
+		})
+	})
+</script>
+<!-- <script>
+	$(document).ready(function(){
+		$.ajax({
+	            async: false,
+	            url: '/show_expense/',
+	            type: 'POST', 
+	            data: {csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	            	html = data["checking"];
+	            	$("body").append("<br>");
+	            	for (var i = 0; i < html.length; i++) {
+	            		$("body").append(html[i]["expense_id"]+" "+html[i]["expense_time"]
+	            			+" "+html[i]["expense_description"]+" "+html[i]["expense_type"]
+	            			+" "+html[i]["receipt_reference"]+" "+html[i]["receipt_currency"]
+	            			+" "+html[i]["receipt_amount"]+" "+html[i]["exchange_rate"]
+	            			+" "+html[i]["converted_amount"]+" "+html[i]["status"]);
+	            		$("body").append("<br>");
+	            	}      
+	            }
+        	});
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/check_expense/',
+	            type: 'POST', 
+	            data: {expense_id:$('#expense_id').val(),checked_result:$('#checked_result').val(),csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	            		alert(data); 
+	            }
+        	})
+		})
+	})
+</script> -->
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/expense_application/',
+	            type: 'POST', 
+	            data: {expense_date:$('#expense_date').val(),expense_description:$('#expense_description').val(),expense_type:$('#expense_type').val(),
+	        		   receipt_reference:$('#receipt_reference').val(),receipt_currency:$('#receipt_currency').val(),receipt_amount:$('#receipt_amount').val(),exchange_rate:$('#exchange_rate').val(),converted_amount:$('#converted_amount').val(),csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	              alert(data);
+	            }
+        	})
+		})
+	})
+</script> -->
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/news_list/',
+	            type: 'POST', 
+	            data: {csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	              for (var i = 0; i < data.length; i++) {
+	              	alert(data[i]["news_id"]);
+	              	alert(data[i]["title"]);
+	              }
+	            }
+        	})
+		})
+	})
+</script> -->
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/manage_carousel/',
+	            type: 'POST', 
+	            data: {carousel_list:$('#carousel_list').val(),csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	            	alert(data);
+	            }
+        	})
+		})
+	})
+</script> -->
+<body>
+	<input type="text" id="account_book_id_1"/>
+	<input type="text" id="value"/>
+	<input type="text" id="account_book_id_2"/>
+	<button>测试</button>
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="http://lizhi-1251014091.cosgz.myqcloud.com/library/images/jquery.cookie.js"></script>
+<title>馆藏书籍信息</title> 
+<style type="text/css">
+	html{
+			font-size: 10px;
+	}
+	body{
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		overflow-x: hidden;
+		background-color: rgb(240,239,244);
+	}
+	#container{
+		position: absolute;
+		height: 100%;
+		width: 100%;
+	}
+	.info_list{
+		border-bottom: 0.3rem solid rgb(219,85,84);
+		position: relative;
+		margin: 1rem auto 1rem auto;
+		width: 90%;
+		height: auto;
+		font-size: 1.6rem;
+		text-align: left;
+		background-color: white;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+	}
+	.content{
+		margin: 0 2rem 0 2rem;
+		padding: 1rem 0 1rem 0;
+	}
+	#nav{
+		width: 90%;
+		margin: auto;
+		overflow: hidden;
+	}
+	#back{
+		font-size: 2.5rem;
+		line-height: 4rem;
+		color: rgb(160,160,160);
+		text-align: center;
+		float: left;
+		width: 4rem;
+		height: 4rem;
+		margin-top: 1.5rem;
+		background-color: white;
+	}
+	#search_bar{
+		background-color: white;
+		width: 90%;
+		height: 4rem;
+		margin-left: 4.3rem;
+		margin-top: 1.5rem;
+	}
+	#search_bar img{
+		float: right;
+		width: 3rem;
+		margin-top: 0.8rem;
+		margin-left: 0.5rem;
+		margin-right: 2rem;
+	}
+	#search_content{
+		margin-top: 0.6rem;
+		margin-left: 2rem;
+		outline: 0;
+		border: 0;
+		width: calc(100% - 9rem);
+		height: 3rem;
+		font-size: 2rem;
+		transition: width 1s;
+	}
+	#back_to_top{
+		background: url("http://lizhi-1251014091.cosgz.myqcloud.com/library/images/back_to_top.png") no-repeat center 50%;
+		background-size: 5rem 5rem;
+		position: fixed;
+		bottom: 2rem;
+		right: 2.5rem;
+		background-color: transparent;
+		width: 6rem;
+		height: 6rem;
+		border-radius: 100%;
+		z-index: 999;
+		outline: none;
+	}
+	::-webkit-scroll-bar{
+		display: none;
+	}
+	.loader {
+	    background-color: transparent;
+	    bottom: 0;
+	    left: 0;
+	    overflow: hidden;
+	    position: relative;
+	    right: 0;
+	    top: 0;
+	    z-index: 888;
+	    height: 30rem;
+	}
+	.loader-inner {
+	    bottom: 0;
+	    height: 6rem;
+	    left: 0;
+	    margin: auto;
+	    position: absolute;
+	    right: 0;
+	    top: 0;
+	    width: 10rem;
+	}
+
+	.loader-line-wrap {
+	    animation: 
+			spin 2000ms cubic-bezier(.175, .885, .32, 1.275) infinite
+		;
+	    box-sizing: border-box;
+	    height: 5rem;
+	    left: 0;
+	    overflow: hidden;
+	    position: absolute;
+	    top: 0;
+	    transform-origin: 50% 100%;
+	    width: 10rem;
+	}
+	.loader-line {
+	    border: 0.4rem solid transparent;
+	    border-radius: 100%;
+	    box-sizing: border-box;
+	    height: 10rem;
+	    left: 0;
+	    margin: 0 auto;
+	    position: absolute;
+	    right: 0;
+	    top: 0;
+	    width: 10rem;
+	}
+	.loader-line-wrap:nth-child(1) { animation-delay: -50ms; }
+	.loader-line-wrap:nth-child(2) { animation-delay: -100ms; }
+	.loader-line-wrap:nth-child(3) { animation-delay: -150ms; }
+	.loader-line-wrap:nth-child(4) { animation-delay: -200ms; }
+	.loader-line-wrap:nth-child(5) { animation-delay: -250ms; }
+
+	.loader-line-wrap:nth-child(1) .loader-line {
+	    border-color: rgb(219,85,84);
+	    height: 9rem;
+	    width: 9rem;
+	    top: 0.7rem;
+	}
+	.loader-line-wrap:nth-child(2) .loader-line {
+	    border-color: rgb(219,85,84);
+	    height: 7.6rem;
+	    width: 7.6rem;
+	    top: 1.4rem;
+	}
+	.loader-line-wrap:nth-child(3) .loader-line {
+	    border-color: rgb(219,85,84);
+	    height: 6.2rem;
+	    width: 6.2rem;
+	    top: 2.1rem;
+	}
+	.loader-line-wrap:nth-child(4) .loader-line {
+	    border-color: rgb(219,85,84);
+	    height: 4.8rem;
+	    width: 4.8rem;
+	    top: 2.8rem;
+	}
+	.loader-line-wrap:nth-child(5) .loader-line {
+	    border-color: rgb(219,85,84);
+	    height: 3.4rem;
+	    width: 3.4rem;
+	    top: 3.5rem;
+	}
+
+	@keyframes spin {
+	    0%, 15% {
+			transform: rotate(0);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+	.loadEffect{
+        width: 120px;
+        height: 120px;
+        position: fixed;
+        margin: 0 auto;
+        left: calc(50% - 60px);
+        top: calc(50% - 60px);
+    }
+    .loadEffect span{
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgb(219,85,84);;
+        position: absolute;
+        -webkit-animation: load 1.04s ease infinite;
+    }
+    @-webkit-keyframes load{
+        0%{
+            -webkit-transform: scale(1.2);
+            opacity: 1;
+        }
+        100%{
+            -webkit-transform: scale(.3);
+            opacity: 0.5;
+        }
+    }
+    .loadEffect span:nth-child(1){
+        left: 0;
+        top: 50%;
+        margin-top:-15px;
+        -webkit-animation-delay:0.13s;
+    }
+    .loadEffect span:nth-child(2){
+        left: 15px;
+        top: 15px;
+        -webkit-animation-delay:0.26s;
+    }
+    .loadEffect span:nth-child(3){
+        left: 50%;
+        top: 0;
+        margin-left: -15px;
+        -webkit-animation-delay:0.39s;
+    }
+    .loadEffect span:nth-child(4){
+        top: 15px;
+        right:15px;
+        -webkit-animation-delay:0.52s;
+    }
+    .loadEffect span:nth-child(5){
+        right: 0;
+        top: 50%;
+        margin-top:-15px;
+        -webkit-animation-delay:0.65s;
+    }
+    .loadEffect span:nth-child(6){
+        right: 15px;
+        bottom:15px;
+        -webkit-animation-delay:0.78s;
+    }
+    .loadEffect span:nth-child(7){
+        bottom: 0;
+        left: 50%;
+        margin-left: -15px;
+        -webkit-animation-delay:0.91s;
+    }
+    .loadEffect span:nth-child(8){
+        bottom: 15px;
+        left: 15px;
+        -webkit-animation-delay:1.04s;
+    }
+    .content_bottom {  
+    	margin: 1rem auto 1rem auto;
+		width: 90%;
+		font-size: 1.6rem;
+	    height: 6rem;  
+	    line-height: 6rem;  
+	    text-align: center;  
+	}  
+	 .content_bottom .line {  
+	    display: inline-block;  
+	    width: 30%;  
+	    border-top: 0.2rem solid rgb(219,85,84);
+	    margin-bottom: 0.5rem; 
+	}  
+	.content_bottom .bottem_info {  
+ 	 	color: rgb(158,158,158);  
+	}  
+	.content_bottom span {
+ 	 	width: 25%;
+	}
+</style>
+<script>
+	$(document).ready(function(){
+
+		$(function(){
+			var str = window.location.href;
+			str = str.substring(str.lastIndexOf("/")+1);
+			if($.cookie(str)){
+				$('html,body').animate({scrollTop: $.cookie(str)}, 1000);
+			}
+		})
+
+		if($('.info_list').length > 0){
+			$('.info_list').remove();
+		}
+		$('.loader').css("display","none");
+		$('.loadEffect').css("display","none");
+		$('.content_bottom').css("display","none");
+		var data_array = {{ data_array|safe }};
+		var key_words = {{ key_words|safe }};
+		var last_search_content = {{ search_content|safe }};
+		$("input[name='search_content']").val(last_search_content[0]);	
+		$(function(){
+			var url_str = window.location.href;
+			$.ajax({ 
+		         url: '/lib/auto_share_config/', 
+		         type: 'GET', 
+		         data: {url_str : url_str},
+		         success: function(data){ 
+		         	wx.config({
+					    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+					    appId: data['appId'], // 必填，公众号的唯一标识
+					    timestamp: data['timestamp'], // 必填，生成签名的时间戳
+					    nonceStr: data['nonceStr'], // 必填，生成签名的随机串
+					    signature: data['signature'],// 必填，签名
+					    jsApiList: data['jsApiList'] // 必填，需要使用的JS接口列表
+					});
+					wx.ready(function(){
+						var url_str = window.location.href;
+						wx.onMenuShareAppMessage({
+						title: '馆藏书籍 —— 『深大荔知』', // 分享标题
+						desc: "《" + last_search_content[0] + "》的搜索结果", // 分享描述
+						link: url_str, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						imgUrl: 'http://lizhi-1251014091.cosgz.myqcloud.com/library/images/headpic.png', // 分享图标
+						type: 'link', // 分享类型,music、video或link，不填默认为link
+						dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+						success: function () {
+						// 用户确认分享后执行的回调函数
+						},
+						cancel: function () {
+						// 用户取消分享后执行的回调函数
+						}
+						});
+
+						wx.onMenuShareTimeline({
+						title: '馆藏书籍 —— 『深大荔知』', // 分享标题
+						link: url_str, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						imgUrl: 'http://lizhi-1251014091.cosgz.myqcloud.com/library/images/headpic.png', // 分享图标
+						success: function () {
+						// 用户确认分享后执行的回调函数
+						},
+						cancel: function () {
+						// 用户取消分享后执行的回调函数
+						}
+						});
+					});
+		         },
+		         error: function(){
+		         	console.log("wx_share_error");
+		         }
+			}); 
+		})
+		function render_data(data_array,key_words){
+			var html = "";
+			for(var k = 0; k < key_words.length; k++){
+				if(key_words[k].indexOf("+") >= 0){
+					var reg = /\+/g;
+					key_words[k] = key_words[k].replace(reg,'\\\+');
+				}
+			}
+			for (var i = 0; i < data_array.length; i++) {
+				for (var j = 0; j < key_words.length; j++) {
+					var reg = new RegExp(key_words[j], 'i');
+					var content = data_array[i][0].match(reg);
+					if(content!=null){
+						data_array[i][0] = data_array[i][0].replace(content, "<strong style=\"color: blue\">" + content + "</strong>");
+					}
+					content = data_array[i][1].match(reg);
+					if(content!=null){
+						data_array[i][1] = data_array[i][1].replace(content, "<strong style=\"color: blue\">" + content + "</strong>");
+					}
+				}
+				html = html + "<div class=\"info_list\"><div class=\"content\"><div style=\"color: red\">";
+				html = html + "<font style=\"color:black; font-weight:bold;\">《" + data_array[i][0] + "》</font>" + "</div>";
+				html = html + "<font style=\"display: none;\" class=\"ctrlno\">" + data_array[i][4] + "</font>";
+				html = html + "作者: " + data_array[i][1] + "<br/>" + "出版社: " + data_array[i][2] + "<br/>" + "出版日期: " + data_array[i][3] + "<b style=\"float:right; font-size:2rem; height:2rem;color:rgb(219,85,84);\">···</b>"
+					    + "<br/></div></div>";
+			}
+			return html;
+		}
+		try{
+			var html = render_data(data_array,key_words);
+
+			$('#ajax-content').html(html);
+		}catch(err){
+
+		}
+		$('#search_bar').click(function(){
+			$('#search_content').focus();
+		})
+		$('#back').click(function(){
+			window.location.href = "http://" + location.host + "/lib/library/";
+			// window.location.href = "http://" + location.host;
+		})
+		var pageno = 2;
+		var status = 0;
+		
+		if(data_array.length > 0 && data_array.length < 15){
+			$('.content_bottom').css("display","block");
+		}
+		if(data_array.length >= 15){
+			$(window).scroll(function () {	
+    		if ($(document).scrollTop() + $(window).height() >= $(document).height() - 800) {	
+				if(status == 0){
+					$.ajax({ 
+			         url: "/lib/ajax_storage_book/", 
+			         type: "GET", 
+			         data: {pageno: pageno},
+			         beforeSend: function () {
+			         	status = 1;
+				        $('.loader').css("display","block");
+				     },
+			         success: function(data,status){ 
+			         	var key_words = data[0];
+			         	data.splice(0,1);
+			         	var data_array = data;
+			         	var html = render_data(data_array,key_words);
+			         	$('#ajax-content').append(html);
+			         	if(data_array.length == 0){
+			         		$('.loader').remove();    
+			         		$('.content_bottom').css("display","block");
+			         	}
+			         },
+				     complete: function () {
+				     	status = 0;
+				     	pageno += 1;
+				        $('.loader').css("display","none");	 
+				    }
+			    	});  
+				}			
+		    }
+		    var str = window.location.href;
+		    str = str.substring(str.lastIndexOf("/")+1);
+		    var top = $(document).scrollTop();
+		    $.cookie(str,top,{path: '/'});
+		    return $.cookie(str);
+			});
+		}
+		$('#search').click(function(){
+			var search_content = $("input[name='search_content']").val();
+			if(search_content.length==0)
+				return false;
+			else{
+				var reg=/</g;
+				search_content = search_content.replace(reg,"《");
+				var reg=/>/g;
+				search_content = search_content.replace(reg,"》");
+				$("input[name='search_content']").val(search_content);
+				setTimeout(function(){$('.loadEffect').css("display","none");$('#container').css('opacity','1');}, 12000);
+				$('.loadEffect').css("display","block");
+				$('#container').css('opacity','0.7');
+				return true;
+			}
+		})
+		$('#img_search').click(function(){
+			$('#search').click();
+		})
+		$("body").on('click','.info_list',function(){
+		    var ctrlno = $(this).find('.ctrlno').html();
+			$("input[name='ctrlno']").val(ctrlno);
+			$('#upload').click();
+		});
+		$('#upload').click(function(){
+			setTimeout(function(){$('.loadEffect').css("display","none");$('#container').css('opacity','1');}, 8000);
+			$('.loadEffect').css("display","block");
+			$('#container').css('opacity','0.7');
+			return true;
+		})
+	});
+</script>
+</head>
+<body>
+	<script type="text/javascript">  
+	 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");  
+	 document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F55471b6aff2ffa1f9e2ac5cbe755ef91' type='text/javascript'%3E%3C/script%3E"));  
+	</script> 
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=65848911" charset="UTF-8"></script>
+	<div id="container">
+	<div id="nav">
+		<div id="back"><<</div>
+		<form action="/lib/storage_book/" method="get" autocomplete="off">
+			<p style="display: none;" id="csrf">{{ csrf_token }}</p>
+			<div id="search_bar">
+	  			<img src="http://lizhi-1251014091.cosgz.myqcloud.com/library/images/search.png" id="img_search">
+		  		<input type="text" placeholder="请输入查询内容" name="search_content" id="search_content"/>
+		  		<input type="submit" style="visibility: hidden;" id="search"/>
+	  		</div>
+  		</form>
+	</div>
+	<div id="ajax-content"></div>
+	<div class="content_bottom">  
+	   <span class="line"></span>  
+	   <span class="bottom_info">没有更多内容</span>  
+	   <span class="line"></span>  
+	</div>
+	<div class="loader">
+		<div class="loader-inner">
+			<div class="loader-line-wrap">
+				<div class="loader-line"></div>
+			</div>
+			<div class="loader-line-wrap">
+				<div class="loader-line"></div>
+			</div>
+			<div class="loader-line-wrap">
+				<div class="loader-line"></div>
+			</div>
+			<div class="loader-line-wrap">
+				<div class="loader-line"></div>
+			</div>
+			<div class="loader-line-wrap">
+				<div class="loader-line"></div>
+			</div>
+		</div>
+	</div>
+	<a href="#nav"><div id="back_to_top"></div></a>
+	<form action="/lib/book_detail/" method="get" style="display: none;" autocomplete="off">
+		{{ csrf_token }}
+		<input type="text" name="ctrlno"/>
+		<input type="submit" id="upload"/>
+	</form>
+	<div class="loadEffect">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+	</div>
+	</div>
+</body>
+</html>

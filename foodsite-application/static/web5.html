@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>web5</title> 
+<style type="text/css">
+	div{
+		text-align:center;
+	}
+	button{
+		margin-top: 20%;
+		font-family:Arial, Helvetica, sans-serif;
+		font-size:18px;
+		font-weight:bold;
+		text-align:center;
+	}
+	#bt1,#bt2,#bt3,#bt4,#bt5,#bt6,#bt7{
+		border: solid;
+		border-radius: 6px;
+		background-color: transparent;
+		width:80px;
+		height: 40px;
+		outline: none;
+	}
+	#bt1,#bt2,#bt3,#bt4,#bt5,#bt6,#bt7:hover{
+		cursor: pointer;
+	}
+	#bt1:hover{
+		background-color: red;
+	}
+	#bt2:hover{
+		background-color: orange;
+	}
+	#bt3:hover{
+		background-color: yellow;
+	}
+	#bt4:hover{
+		background-color: green;
+	}
+	#bt5:hover{
+		background-color: blue;
+	}
+	#bt6:hover{
+		background-color: purple;
+	}
+</style>
+<script src="jquery-3.2.1.js">
+</script>
+<script>
+$(document).ready(function(){
+  $("#bt1").click(function(){
+  	$("#BODY").css("background-color","red");
+  });
+  $("#bt2").click(function(){
+    $("#BODY").css("background-color","orange");
+  });
+  $("#bt3").click(function(){
+    $("#BODY").css("background-color","yellow");
+  });
+  $("#bt4").click(function(){
+    $("#BODY").css("background-color","green");
+  });
+  $("#bt5").click(function(){
+    $("#BODY").css("background-color","blue");
+  });
+  $("#bt6").click(function(){
+    $("#BODY").css("background-color","purple");
+  });
+  $("#bt7").click(function(){
+    $("#BODY").css("background-color","white");
+  });
+  
+});
+</script>
+</head>
+<body id="BODY">
+	<div>
+		<button id="bt1">red</button>
+		<button id="bt2">orange</button>
+		<button id="bt3">yellow</button>
+		<button id="bt4">green</button>
+		<button id="bt5">blue</button>
+        <button id="bt6">purple</button>
+        <button id="bt7">clear</button>
+	</div>
+</body>
+</html>

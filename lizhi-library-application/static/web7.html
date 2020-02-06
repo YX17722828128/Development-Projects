@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<title>web7</title> 
+<script src="jquery-3.2.1.js"></script>
+<style type="text/css">
+	#nav{
+    float: left;
+    width: 100px;
+    height: 500px;
+    margin-left: 20%;
+    margin-top: 5%;
+    text-align: center;
+  }
+  #nav div{
+    padding-top: 150px;
+  }
+  #info{
+    float: right;
+    width: 300px;
+    height: 500px;
+    margin-right: 30%;
+    margin-top: 5%;
+  }
+  tr{
+    height: 42px;
+  }
+  td{
+    text-align: center;
+  }
+  table{
+    margin: 140px auto;
+  }
+  button{
+    border: solid;
+    border-radius: 6px;
+    background-color: transparent;
+    outline: none;
+  }
+  button:hover{
+    cursor: pointer;
+    background-color: #FF3;
+  }
+</style>
+<script>
+  var person = new Array(
+      {ids:"2016001",names:"Alex",addrs:"BackStreet",phone:"13535991765"},
+      {ids:"2016002",names:"Owen",addrs:"QueenStreet",phone:"13232993762"},
+      {ids:"2016003",names:"Peter",addrs:"WenShan Lake",phone:"13737991767"},
+      {ids:"2016004",names:"Jordan",addrs:"Fox River",phone:"13636991766"}
+      );
+	$(document).ready(function(){
+        $('#id').text(person[0].ids);
+        $('#name').text(person[0].names);
+        $('#addr').text(person[0].addrs);
+        $('#phone').text(person[0].phone);
+      var count = 0;
+		  $('#first').click(function(){
+        count = 0;
+        $('#id').text(person[count].ids);
+        $('#name').text(person[count].names);
+        $('#addr').text(person[count].addrs);
+        $('#phone').text(person[count].phone);
+      });
+      $('#next').click(function(){
+         count++;
+         count = count%4;
+        $('#id').text(person[count].ids);
+        $('#name').text(person[count].names);
+        $('#addr').text(person[count].addrs);
+        $('#phone').text(person[count].phone);
+      });
+      $('#previous').click(function(){
+         count += 3;
+         count = count%4;
+        $('#id').text(person[count].ids);
+        $('#name').text(person[count].names);
+        $('#addr').text(person[count].addrs);
+        $('#phone').text(person[count].phone);
+      });
+      $('#last').click(function(){
+        count  = 3;
+        $('#id').text(person[count].ids);
+        $('#name').text(person[count].names);
+        $('#addr').text(person[count].addrs);
+        $('#phone').text(person[count].phone);
+      });
+  	});
+</script>
+</head>
+
+<body>
+	<div>
+		<div id="nav">
+      <div>
+        <button id="first">First</button><br><br>
+        <button id="next">Next</button><br><br>
+        <button id="previous">Previous</button><br><br>
+        <button id="last">Last</button>
+      </div>
+    </div>
+    <div id="info">
+      <table>
+        <tr>
+          <td><label>ID: </label></td><td><font id="id"></font></td>
+        </tr>
+        <tr>
+          <td><label>Name: </label></td><td><font id="name"></font></td>
+        </tr>
+        <tr>
+          <td><label>Address: </label></td><td><font id="addr"></font></td>
+        </tr>
+        <tr>
+          <td><label>Phone No: </label></td><td><font id="phone"></font></td>
+        </tr>
+      </table>
+    </div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>pxty</title>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/establish_form/',
+	            type: 'POST', 
+	            data: {display_requirement:$('#display_requirement').val(),csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	            	if(data == "success"){
+	            		$('body').append("<a href=\"download_form\" id=\"download_form\">下载链接</a>");     
+	            		$('#download_form')[0].click();   	
+	            		$('#download_form').remove();	
+	            	}
+	            }
+        	})  	
+		})
+	})
+</script> -->
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/aaa/',
+	            type: 'POST', 
+	            data: {author_id:"xxx",comment_time:"xxx",csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	              for (var i = 0; i < data.length; i++) {
+	              	$("body").append(data[i]["recommend_id"]+" "+data[i]["news_title"]+" "+data[i]["news_url"]+"<br>");
+	              }
+	            }
+        	})
+		})
+	})
+</script> -->
+<script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			var url_str = window.location.href;
+			$.ajax({ 
+		         url: '/lib/auto_share_config/', 
+		         type: 'GET', 
+		         data: {url_str : url_str},
+		         success: function(data){ 
+		         	wx.config({
+					    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+					    appId: data['appId'], // 必填，公众号的唯一标识
+					    timestamp: data['timestamp'], // 必填，生成签名的时间戳
+					    nonceStr: data['nonceStr'], // 必填，生成签名的随机串
+					    signature: data['signature'],// 必填，签名
+					    jsApiList: data['jsApiList'] // 必填，需要使用的JS接口列表
+					});
+					wx.ready(function(){
+						var url_str = window.location.href;
+						wx.onMenuShareAppMessage({
+						title: '知书', // 分享标题
+						desc: '深大荔知的图书馆\n藏书查询小功能', // 分享描述
+						link: url_str, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						imgUrl: 'http://lizhi-1251014091.cosgz.myqcloud.com/library/images/LIB.webp', // 分享图标
+						type: 'link', // 分享类型,music、video或link，不填默认为link
+						dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+						success: function () {
+						// 用户确认分享后执行的回调函数
+						},
+						cancel: function () {
+						// 用户取消分享后执行的回调函数
+						}
+						});
+
+						wx.onMenuShareTimeline({
+						title: '知书', // 分享标题
+						link: url_str, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+						imgUrl: 'http://lizhi-1251014091.cosgz.myqcloud.com/library/images/LIB.webp', // 分享图标
+						success: function () {
+						// 用户确认分享后执行的回调函数
+						},
+						cancel: function () {
+						// 用户取消分享后执行的回调函数
+						}
+						});
+					});
+		         },
+		         error: function(){
+		         	console.log("wx_share_error");
+		         }
+			}); 
+		})
+	})
+</script>
+<!-- <script>
+	$(document).ready(function(){
+		$.ajax({
+	            async: false,
+	            url: '/show_expense/',
+	            type: 'POST', 
+	            data: {csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	            	html = data["checking"];
+	            	$("body").append("<br>");
+	            	for (var i = 0; i < html.length; i++) {
+	            		$("body").append(html[i]["expense_id"]+" "+html[i]["expense_time"]
+	            			+" "+html[i]["expense_description"]+" "+html[i]["expense_type"]
+	            			+" "+html[i]["receipt_reference"]+" "+html[i]["receipt_currency"]
+	            			+" "+html[i]["receipt_amount"]+" "+html[i]["exchange_rate"]
+	            			+" "+html[i]["converted_amount"]+" "+html[i]["status"]);
+	            		$("body").append("<br>");
+	            	}      
+	            }
+        	});
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/check_expense/',
+	            type: 'POST', 
+	            data: {expense_id:$('#expense_id').val(),checked_result:$('#checked_result').val(),csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	            		alert(data); 
+	            }
+        	})
+		})
+	})
+</script> -->
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/expense_application/',
+	            type: 'POST', 
+	            data: {expense_date:$('#expense_date').val(),expense_description:$('#expense_description').val(),expense_type:$('#expense_type').val(),
+	        		   receipt_reference:$('#receipt_reference').val(),receipt_currency:$('#receipt_currency').val(),receipt_amount:$('#receipt_amount').val(),exchange_rate:$('#exchange_rate').val(),converted_amount:$('#converted_amount').val(),csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	              alert(data);
+	            }
+        	})
+		})
+	})
+</script> -->
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/news_list/',
+	            type: 'POST', 
+	            data: {csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	              for (var i = 0; i < data.length; i++) {
+	              	alert(data[i]["news_id"]);
+	              	alert(data[i]["title"]);
+	              }
+	            }
+        	})
+		})
+	})
+</script> -->
+<!-- <script>
+	$(document).ready(function(){
+		$('button').click(function(){
+			$.ajax({
+	            async: false,
+	            url: '/manage_carousel/',
+	            type: 'POST', 
+	            data: {carousel_list:$('#carousel_list').val(),csrfmiddlewaretoken:'{{ csrf_token }}'},
+	            success: function (data) {
+	            	alert(data);
+	            }
+        	})
+		})
+	})
+</script> -->
+<body>
+<!-- 	<p>expense_date</p><input type="text" id="expense_date"><br>
+	<p>expense_description</p><input type="text" id="expense_description"><br>
+	<p>expense_type</p><input type="text" id="expense_type"><br>
+	<p>receipt_reference</p><input type="text" id="receipt_reference"><br>
+	<p>receipt_currency</p><input type="text" id="receipt_currency"><br>
+	<p>receipt_amount</p><input type="text" id="receipt_amount"><br>
+	<p>exchange_rate</p><input type="text" id="exchange_rate"><br>
+	<p>converted_amount</p><input type="text" id="converted_amount"><br> -->
+
+	<!-- 使用英文逗号分割轮播id -->
+<!-- 	<p>carousel_list</p><input type="text" id="carousel_list"><br> -->
+	<!-- <p>display_requirement</p><input type="text" id="display_requirement"><br> -->
+	<!-- <p>expense_id</p><input type="text" id="expense_id"><p>checked_result</p><input type="text" id="checked_result"><br> -->
+	<button>测试</button>
+</body>
+</html>

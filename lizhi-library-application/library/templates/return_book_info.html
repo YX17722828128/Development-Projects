@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>应还书籍信息</title> 
+<style type="text/css">
+	body{
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		overflow-x: hidden;
+		background-color: rgb(240,239,244);
+	}
+	#info_list{
+		border-bottom: 3px solid rgb(219,85,84);
+		position: relative;
+		margin: 10px auto 10px auto;
+		width: 90%;
+		height: auto;
+		font-size: 1rem;
+		text-align: left;
+		padding-left: 20px;
+		background-color: white;
+	}
+</style>
+</head>
+<body>
+	<script type="text/javascript">  
+	 var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");  
+	 document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F55471b6aff2ffa1f9e2ac5cbe755ef91' type='text/javascript'%3E%3C/script%3E"));  
+	</script> 
+	<script type="text/javascript" src="http://tajs.qq.com/stats?sId=65848911" charset="UTF-8"></script>
+{% for inner in data_array %}
+<div id="info_list">
+	<div style="width: 100%; height: 15px;"></div>
+	{% for i in inner %}
+	{% if forloop.counter|divisibleby:'2' == 0 %}<b style="color: rgb(219,85,84);">{{ i }}</b>
+	{% else %}{{ i }}<br/>
+	<div style="width: 100%; height: 5px;"></div>
+	{% endif %}
+	{% endfor %}
+	<div style="width: 100%; height: 10px;"></div>
+</div>
+{% endfor %}
+</body>
+</html>

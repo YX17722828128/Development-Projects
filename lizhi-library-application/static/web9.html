@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"> 
+<title>web9</title> 
+<script src="jquery-3.2.1.js"></script>
+<style type="text/css">
+  #calendar{
+    width: 500px;
+    height: 600px;
+    position: absolute;
+    left: calc((100% - 500px) / 2);
+    top: calc((100% - 600px) / 2);
+    background-color: rgb(241,243,243);
+  }
+  #show{
+    margin-top: 10%;
+  }
+  #show li{
+    list-style: none;
+    float: left;
+    width: 14.2%;
+    overflow: hidden;
+    text-align: center;
+  }
+  .effect:hover{
+    background-color: blue;
+    cursor: pointer;
+  } 
+  .target{
+    background-color: blue;
+  }
+  #datenav,#show{
+    margin-left: -5%;
+  }
+  #datenav li{
+    width: 14.2%;
+    float: left;
+    list-style: none;
+    text-align: center;
+  }
+  #show li{
+    padding: 15px 0px 15px 0px;
+  }
+  #nav{
+    height: 40px;
+    line-height: 40px;
+  }
+  #nav div{
+    float: left;
+  }
+  #lastmonth{
+    text-align: right;
+    width: 10%;
+  }
+  #nextmonth{
+    text-align: left;
+    width: 10%;
+  }
+  #lastyear{
+    text-align: right;
+    width: 15%;
+  }
+  #nextyear{
+    text-align: left;
+    width: 15%;
+  }
+  #lastmonth,#nextmonth,#lastyear,#nextyear{
+    font-size: 20px;
+    font-weight: bolder;
+    cursor: pointer;
+  }
+  #month{
+    width: 50%;
+    text-align: center;
+  }
+  #language{
+    float: left;
+    bottom: 10px;
+    text-align: center;
+    height: 70px;
+    width: 500px;
+  }
+  button{
+    height: 70px;
+    width: 70px;
+    border-radius: 100%;
+    outline: none;
+    cursor: pointer;
+    background-color: blue;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    color: white;
+    font-weight: bold;
+  }
+  button:hover{
+    background-color: rgb(251,119,48);
+  }
+</style>
+<script>
+  $(document).ready(function(){
+
+	var nowDate = new Date();
+  var year = nowDate.getFullYear();
+  var month = nowDate.getMonth();
+  var day = nowDate.getDate();
+
+  $('#nextmonth').click(function(){
+    month++;
+    if(month == 12){
+      month = 0;
+      year++;
+    }
+    $('#show li').empty();
+    $('#show li').removeClass("effect");
+    $('#show li').removeClass("target");
+    showmonths();
+    $('#month').text(year + "/" + (month+1));
+  });
+
+  $('#lastmonth').click(function(){
+    --month;
+    if(month == -1){
+      month = 11;
+      --year;
+    }
+    $('#show li').empty();
+    $('#show li').removeClass("effect");
+    $('#show li').removeClass("target");
+    showmonths();
+    $('#month').text(year + "/" + (month+1));
+  });
+
+  $('#nextyear').click(function(){
+    year++;
+    $('#show li').empty();
+    $('#show li').removeClass("effect");
+    $('#show li').removeClass("target");
+    showmonths();
+    $('#month').text(year + "/" + (month+1));
+  });
+
+  $('#lastyear').click(function(){
+      --year;
+    $('#show li').empty();
+    $('#show li').removeClass("effect");
+    $('#show li').removeClass("target");
+    showmonths();
+    $('#month').text(year + "/" + (month+1));
+  });
+
+  function showmonths(){
+    var month_days = new Date(year,month+1,0);
+    var month_begin = new Date(year,month,1);
+    var begin_day = month_begin.getDay();
+
+    for(var i = 0; i < month_days.getDate(); i++){
+      $('#show li').eq(i+begin_day).text(i+1);
+    }
+    for(var i = 0; i < 42; i++){
+      var val = $('#show li').eq(i).text();
+      if(val != "") {
+        $('#show li').eq(i).addClass("effect");
+      }
+    }
+  }
+  showmonths();
+  for(var i = 0; i < 42; i++){
+      var val = $('#show li').eq(i).text();
+      if(val == day)
+        $('#show li').eq(i).addClass("target");
+  }
+  var count = 0;
+
+  $('button').click(function(){
+    var Eng = new Array("Sun","Mon","Tue","Wed","Thu","Fri","Sat");
+    var Chi = new Array("周日","周一","周二","周三","周四","周五","周六");
+    var Spa = new Array("Dom","Lun","Mar","Mie","Jue","Vie","Sab");
+    var Rua = new Array("Boc","пон","BTO","cpe","чет","пят","суб");
+    count++;
+    if(count==4)
+      count = 0;
+    if(count==0){
+      for(var i = 0; i < 7; i++)
+        $('#datenav li').eq(i).text(Eng[i]);
+      $('button').text("English");
+    }
+    else if(count==1){
+      for(var i = 0; i < 7; i++)
+        $('#datenav li').eq(i).text(Chi[i]);
+      $('button').text("Chinese");
+    }
+    else if(count==2){
+      for(var i = 0; i < 7; i++)
+        $('#datenav li').eq(i).text(Spa[i]);
+      $('button').text("Spanish");
+    }
+    else if(count==3){
+      for(var i = 0; i < 7; i++)
+        $('#datenav li').eq(i).text(Rua[i]);
+      $('button').text("Russian");
+    }
+  });
+});
+</script>
+</head>
+  
+<body>
+  <div id="calendar">
+    <div id="nav">
+      <div id="lastmonth"><</div>
+      <div id="lastyear">-</div>
+      <div id="month">2017/11</div>
+      <div id="nextyear">+</div>
+      <div id="nextmonth">></div>
+    </div>
+    <div id="datenav">
+      <ul>
+        <li>Sun</li>
+        <li>Mon</li>
+        <li>Tue</li>
+        <li>Wed</li>
+        <li>Thu</li>
+        <li>Fri</li>
+        <li>Sat</li>
+      </ul>
+    </div>
+    <div id="show">
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+    <div id="language">
+      <button>English</button>
+    </div>
+  </div>
+</body>
+</html>

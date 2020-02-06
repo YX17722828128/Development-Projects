@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>web2</title> 
+<style type="text/css">
+	body{
+		text-align: center;
+		font-family: Georgia, "Times New Roman", Times, serif;
+		font-weight: bold;
+	}
+	form{
+		margin-top: 15%;
+	}
+	input{
+		border-top-style: none;
+		border-left-style: none;
+		border-right-style: none;
+		border-bottom-style:solid;
+		outline: none;
+		font-family: Georgia, "Times New Roman", Times, serif;
+		font-weight: bold;
+	}
+	div{
+		border:solid;
+		width: 400px;
+		height: 200px;
+		margin: auto;
+		margin-top: 15%;
+	}
+	.btn{
+		border: solid;
+		border-radius: 6px;
+		background-color: transparent;
+		cursor: pointer;
+	}
+	.btn:hover{
+		background-color: #FF3;
+	}
+	p{
+		font-size: 10px;
+		color: red;
+	}
+</style>
+<script src="jquery-3.2.1.js">
+</script>
+<script>
+$(document).ready(function(){
+	var count=0;
+	$("input[name='account']").focus();
+  	$("#mySubmit").click(function(){
+    	count++;
+		var acc = $("input[name='account']").val();
+		var psd = $("input[name='password']").val();
+		if(acc == "CS" && psd == "cs2016"){
+			$(location).attr('href', 'http://www1.szu.edu.cn');
+		}
+		else{
+		//	alert("wrong input!!\n(input error three times will be prohibited input)---" + count + "  time(s)");
+			$("p").text("wrong input!!\n(input error three times will be prohibited input)---" + count + "  time(s)");
+			if(count == 3){
+				$("#acc,#psd").attr("disabled","disabled"); 
+				alert("sorry, you can't input anymore");
+				$("#mySubmit").unbind("click");
+			}
+		}
+		$('form')[0].reset();
+		$("input[name='account']").focus();
+  });
+});
+</script>
+</head>
+<body>
+    <div>
+        <form action="" method="post">
+            <label>Account:&nbsp;&nbsp;&nbsp; </label><input type="text" placeholder="correct eg: CS" name="account" id="acc"/><br/><br/>
+            <label>Password: </label><input type="text" placeholder="correct eg: cs2016" name="password" id="psd"/><br/>
+            <p></p> 
+            <input id="mySubmit" type="button" name="提交" value="提交" class="btn"/>&nbsp;&nbsp;&nbsp;<input type="reset" name="重置" class="btn"/>
+        </form>
+    </div>
+</body>
+</html>
